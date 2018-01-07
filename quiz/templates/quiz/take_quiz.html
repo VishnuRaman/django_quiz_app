@@ -1,0 +1,35 @@
+{% extends 'quiz/quiz_base.html' %}
+{% block page_title %}{{ object.title }} Quiz{% endblock %}
+{% block body_class %}take-quiz{% endblock %}
+{% block breadcrumbs %}
+    <li><a href="{% url 'quiz-list' %}">Quizzes</a> <span class="divider">/</span></li>
+    <li><a href="{% url 'quiz-detail' quiz.pk %}">{{ object.title }}</a> <span class="divider">/</span></li>
+    <li class="active">Take Quiz</li>
+{% endblock %}
+{% block body_content %}
+<div class="span12">
+    <h1>Quiz: {{ object.title }}</h1>
+    <form action="." method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+                {% for choice in field %}
+                    <div class="radio">
+                        <label>
+                            {{ choice.tag }}
+                            {{ choice.choice_label }}
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-success">Submit Answers</button>
+    </form>
+</div>
+{% endblock %}

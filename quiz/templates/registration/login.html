@@ -1,0 +1,50 @@
+{% extends 'quiz/quiz_base.html' %}
+{% block page_title %}Django Quiz App Login{% endblock %}
+{% block breadcrumbs %}
+    <li><a href="{% url 'quiz-list' %}">Quizzes</a> <span class="divider">/</span></li>
+    <li class="active">Login</li>
+{% endblock %}
+{% block body_content %}
+<div class="span6">
+    <div class="well">
+        <h2>Credentials</h2>
+        <p>Use the credentials below to login as either a student or an instructor.</p>
+        <dl>
+          <dt>Student Login:</dt>
+          <dd>
+              <ul>
+                  <li>User: student</li>
+                  <li>Password: student</li>
+              </ul>
+          </dd>
+          <dt>Teacher Login:</dt>
+          <dd>
+              <ul>
+                  <li>User: teacher</li>
+                  <li>Password: teacher</li>
+              </ul>
+          </dd>
+        </dl>
+    </div>
+</div>
+<div class="span6">
+    <h2>Login Form</h2>
+    {% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+        Your username and password didn't match. Please try again.
+    </div>
+    {% endif %}
+
+    <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <div class="form-group">
+        {{ form.username.label_tag }}
+        {{ form.username }}
+        {{ form.password.label_tag }}
+        {{ form.password }}
+    </div>
+    <button type="submit" class="btn btn-success" value="login">Login</button>
+    <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+</div>
+{% endblock %}

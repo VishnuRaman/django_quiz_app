@@ -1,0 +1,27 @@
+{% extends 'quiz/quiz_base.html' %}
+{% block page_title %}Quiz Results{% endblock %}
+{% block breadcrumbs %}
+    <li><a href="{% url 'quiz-list' %}">Quizzes</a> <span class="divider">/</span></li>
+    <li><a href="{% url 'quiz-detail' quiz.pk %}">{{ object.title }}</a> <span class="divider">/</span></li>
+    <li class="active">Student Quiz Results</li>
+{% endblock %}
+{% block body_content %}
+<div class="span12">
+    <h1>Student Quiz Results</h1>
+    <h3>Quiz: {{ object.title }}</h3>
+    <table class="table table-striped">
+        <tr>
+            <th>Student</th>
+            <th>Score</th>
+            <th>Grade</th>
+        </tr>
+        {% for student in student_list %}
+        <tr>
+            <td>{{ student.username }}</td>
+            <td>{{ student.num_correct_answers }} / {{ total_questions }}</td>
+            <td>{% widthratio student.num_correct_answers total_questions 100 %}%</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

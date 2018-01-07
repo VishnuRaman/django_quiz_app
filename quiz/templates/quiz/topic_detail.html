@@ -1,0 +1,20 @@
+{% extends 'quiz/quiz_base.html' %}
+{% load quiz_tags %}
+{% block page_title %}{{ object.title }} Quiz{% endblock %}
+{% block breadcrumbs %}
+    <li><a href="{% url 'topic-list' %}">Topics</a> <span class="divider">/</span></li>
+    <li class="active">{{ object.title }}</li>
+{% endblock %}
+{% block body_content %}
+<div class="span12">
+    <h1>{{ object.title }}</h1>
+    <h2>Quiz Content</h2>
+    {{ object.content|linebreaks }}
+    {% if is_student %}
+            <li class="active"><a href="{% url 'quiz-list' object.pk %}">Quizzes</a></li>
+    {% endif %}
+    {% if is_instructor %}
+    <p> <a class="btn btn-warning btn-large" href="{% url 'admin:quiz_quiz_change' object.pk %}">Edit Quiz Content</a></p>
+    {% endif %}
+</div>
+{% endblock %}

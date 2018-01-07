@@ -1,0 +1,27 @@
+{% extends 'quiz/quiz_base.html' %}
+{% load quiz_tags %}
+{% block page_title %}{{ object.title }} Django Quiz App{% endblock %}
+{% block breadcrumbs %}
+    <li><a href="{% url 'quiz-list' %}">Quizzes</a> <span class="divider">/</span></li>
+    <li class="active">{{ object.title }}</li>
+{% endblock %}
+{% block body_content %}
+<div class="span12">
+    <h1>{{ object.title }}</h1>
+    <h2>Quiz Content</h2>
+    {{ object.content|linebreaks }}
+    {% if is_student %}
+        {% has_student_completed_quiz request.user object as quiz_taken %}
+        <p>
+        {% if not quiz_taken %}
+            <a class="btn btn-success btn-large" href="{% url 'take-quiz' object.pk %}">I'm Ready To Take The Quiz!</a>
+        {% else %}
+            <button type="button" class="btn btn-large" disabled="disabled">Quiz Already Completed</button>
+        {% endif %}
+        </p>
+    {% endif %}
+    {% if is_instructor %}
+    <p><a class="btn btn-info btn-large" href="{% url 'student-results' object.pk %}">See Student Quiz Results</a> <a class="btn btn-warning btn-large" href="{% url 'admin:quiz_quiz_change' object.pk %}">Edit Lesson Content</a></p>
+    {% endif %}
+</div>
+{% endblock %}
