@@ -49,13 +49,13 @@ class UserRegistrationView(CreateView):
 
 
 # Mixins are a sort of class that is user to 'mix-in' extra properties and methods into a class.
-class RequiredGroupMixin(object):
+class AllocatedGroupMixin(object):
 
-    # Ensure only logged in users who belong to a particular group (or groups)
+    # Ensure only logged in users who belong to an allocated group (or groups)
     # can access this view.
 
     def dispatch(self, request, *args, **kwargs):
-        # assert isinstance(self, ((TakeQuizView, QuizResultsListView), RequiredGroupMixin))
+        # assert isinstance(self, ((TakeQuizView, QuizResultsListView), AllocatedGroupMixin))
 
         # takes argument object and string, returns true if string is the name of one of the object's attribute,
         # False if not
@@ -69,7 +69,7 @@ class RequiredGroupMixin(object):
                     'access this page: {}'.format(
                         ', '.join(self.restrict_to_groups)
                     ))
-        data = super(RequiredGroupMixin,self).dispatch(request, *args, **kwargs)
+        data = super(AllocatedGroupMixin,self).dispatch(request, *args, **kwargs)
         return data
 
 
@@ -122,7 +122,7 @@ class QuizDetailView(IsStudentOrIsAdminMixin,DetailView):
      #   return super(QuizDetailView,self).get_queryset()
 
 
-class TakeQuizView(RequiredGroupMixin,
+class TakeQuizView(AllocatedGroupMixin,
                    SingleObjectTemplateResponseMixin,
                    ModelFormMixin,
                    ProcessFormView):
@@ -168,7 +168,7 @@ class TakeQuizView(RequiredGroupMixin,
         return HttpResponseRedirect(reverse('quiz-list'))
 
 
-class QuizResultsListView(RequiredGroupMixin,
+class QuizResultsListView(AllocatedGroupMixin,
                           DetailView):
     queryset = Quiz.objects.prefetch_related('questions')
     template_name = 'quiz/see_quiz_results.html'
