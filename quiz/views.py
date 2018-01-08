@@ -78,7 +78,7 @@ class IsStudentOrIsAdminMixin(object):
     # Determines whether the logged-in user is an admin or a student.
 
     def dispatch(self, request, *args, **kwargs):
-        # assert isinstance(self, ((QuizListView,QuizDetailView ), IsStudentOrIsInstructorMixin))
+        # assert isinstance(self, ((QuizListView,QuizDetailView ), IsStudentOrIsAdminMixin))
         is_student = False
         is_admin = False
 
