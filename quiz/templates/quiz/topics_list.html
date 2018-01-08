@@ -6,20 +6,20 @@
 {% endblock %}
 {% block body_content %}
 <div class="span12">
-    <h1>Topic List{% if is_instructor %} <a class="btn btn-warning btn-large pull-right create-quiz-btn" href="{% url 'admin:quiz_topic_add' %}">Create A New Topic</a>{% endif %}</h1>
+    <h1>Topic List{% if is_admin %} <a class="btn btn-warning btn-large pull-right create-quiz-btn" href="{% url 'admin:quiz_topic_add' %}">Create A New Topic</a>{% endif %}</h1>
 
     <table class="table table-striped">
         <tr>
             <th>Topic Title</th>
             <th>Topic Content</th>
-            <th>{% if is_student %}View Quiz{% elif is_instructor%}Student Quiz Results{% endif %}</th>
+            <th>{% if is_student %}View Quiz{% elif is_admin%}Student Quiz Results{% endif %}</th>
         </tr>
         {% for topic in object_list %}
         <tr>
             <td>{{ topic.title }}</td>
-            <td><a class="btn btn-primary" href="{% url 'topic-detail' topic.pk %}">{% if is_student %}Review Topic Content{% elif is_instructor %}Review Lesson Content{% endif %}</a></td>
+            <td><a class="btn btn-primary" href="{% url 'topic-detail' topic.pk %}">{% if is_student %}Review Topic Content{% elif is_admin %}Review Lesson Content{% endif %}</a></td>
             <td>
-                {% if is_instructor %}
+                {% if is_admin %}
                     <a class="btn btn-info" href="{% url 'student-results' quiz.pk %}">See Student Quiz Results</a>
                 {% endif %}
             </td>

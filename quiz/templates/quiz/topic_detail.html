@@ -13,7 +13,7 @@
     {% if is_student %}
             <li class="active"><a href="{% url 'quiz-list' object.pk %}">Quizzes</a></li>
     {% endif %}
-    {% if is_instructor %}
+    {% if is_admin %}
     <p> <a class="btn btn-warning btn-large" href="{% url 'admin:quiz_quiz_change' object.pk %}">Edit Quiz Content</a></p>
     {% endif %}
 </div>
