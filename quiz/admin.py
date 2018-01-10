@@ -8,7 +8,7 @@ class TopicAdmin (admin.ModelAdmin):
     search_fields = ('topic',)
 
 
-class QuestionStackedInline(admin.StackedInline):
+class QuestionAdmin(admin.StackedInline):
     form = QuestionForm
     model = Question
     ordering = ("order_in_quiz",)
@@ -16,7 +16,7 @@ class QuestionStackedInline(admin.StackedInline):
 
 
 class QuizAdmin(admin.ModelAdmin):
-    inlines = [QuestionStackedInline]
+    inlines = [QuestionAdmin]
 
 
 admin.site.register(Quiz, QuizAdmin)

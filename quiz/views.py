@@ -10,7 +10,7 @@ from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login
-from .forms import TakeQuizForm
+from .forms import AnswerQuizForm
 from .models import *
 
 from django.shortcuts import  get_object_or_404
@@ -122,17 +122,17 @@ class QuizDetailView(IsStudentOrIsAdminMixin,DetailView):
      #   return super(QuizDetailView,self).get_queryset()
 
 
-class TakeQuizView(AllocatedGroupMixin,
+class AnswerQuizView(AllocatedGroupMixin,
                    SingleObjectTemplateResponseMixin,
                    ModelFormMixin,
                    ProcessFormView):
     model = Quiz
-    form_class = TakeQuizForm
-    template_name = 'quiz/take_quiz.html'
+    form_class = AnswerQuizForm
+    template_name = 'quiz/answer_quiz.html'
     restrict_to_groups = ('Students',)
 
     def get_queryset(self):
-        return super(TakeQuizView,self).get_queryset()
+        return super(AnswerQuizView,self).get_queryset()
 
     def dispatch(self, request, *args, **kwargs):
 
@@ -140,7 +140,7 @@ class TakeQuizView(AllocatedGroupMixin,
 
 
         self.object = self.get_object()
-        return super(TakeQuizView, self).dispatch(
+        return super(AnswerQuizView, self).dispatch(
             request, *args, **kwargs
         )
 
@@ -159,28 +159,22 @@ class TakeQuizView(AllocatedGroupMixin,
             question_pk = int(question_key.split('__')[-1])
             question = self.object.questions.get(pk=question_pk)
             answer_as_bool = self.convert_form_value_to_bool(answer)
-            user_answer = Answer(
-                user=self.request.user,
-                question=question,
-                answered_correctly=answer_as_bool is question.correct_answer
-            )
+            user_answer = Answer(user=self.request.user,question=question,answered_correctly=answer_as_bool is question.correct_answer)
             user_answer.save()
         return HttpResponseRedirect(reverse('quiz-list'))
 
 
-class QuizResultsListView(AllocatedGroupMixin,
+class ResultsListView(AllocatedGroupMixin,
                           DetailView):
     queryset = Quiz.objects.prefetch_related('questions')
-    template_name = 'quiz/see_quiz_results.html'
+    template_name = 'quiz/quiz_results.html'
     restrict_to_groups = ('Admins',)
 
     def get_context_data(self, **kwargs):
-        context = super(QuizResultsListView, self).get_context_data(**kwargs)
+        context = super(ResultsListView, self).get_context_data(**kwargs)
         context['total_questions'] = self.object.questions.count()
         context['student_list'] = User.objects.filter(
-            groups__name__in=['Students'],
-            quiz_answers__question__quiz_id=self.object.pk
-        ).annotate(
+            groups__name__in=['Students'],quiz_answers__question__quiz_id=self.object.pk).annotate(
             num_correct_answers=Sum(Case(When(quiz_answers__answered_correctly=True, then=1),default=0,
                                          output_field=IntegerField()))).order_by('username').distinct()
         return context
