@@ -17,7 +17,7 @@
         {% for quiz in object_list %}
         <tr>
             <td>{{ quiz.title }}</td>
-            <td><a class="btn btn-primary" href="{% url 'quiz-detail' quiz.pk %}">{% if is_student %}Review Quiz Content{% elif is_admin %}Review Quiz Content{% endif %}</a></td>
+            <td><a class="btn btn-primary" href="{% url 'quiz-info' quiz.pk %}">{% if is_student %}Review Quiz Content{% elif is_admin %}Review Quiz Content{% endif %}</a></td>
             <td>
                 {% has_student_completed_quiz request.user quiz as quiz_taken %}
                 {% if is_student %}
@@ -27,7 +27,7 @@
                         <button type="button" class="btn" disabled="disabled">Quiz Completed</button>
                     {% endif %}
                 {% elif is_admin %}
-                    <a class="btn btn-info" href="{% url 'student-results' quiz.pk %}">See Student Quiz Results</a>
+                    <a class="btn btn-info" href="{% url 'quiz-results' quiz.pk %}">See Student Quiz Results</a>
                 {% endif %}
             </td>
         </tr>

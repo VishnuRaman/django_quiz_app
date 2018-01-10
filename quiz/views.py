@@ -114,9 +114,9 @@ class QuizListView(IsStudentOrIsAdminMixin,ListView):
      #   return super(QuizListView,self).get_queryset()
 
 
-class QuizDetailView(IsStudentOrIsAdminMixin,DetailView):
+class QuizInfoView(IsStudentOrIsAdminMixin,DetailView):
     queryset = Quiz.objects.prefetch_related('questions')
-    template_name = 'quiz/quiz_detail.html'
+    template_name = 'quiz/quiz_info.html'
     #print(queryset)
     #def get_queryset(self):
      #   return super(QuizDetailView,self).get_queryset()
@@ -152,7 +152,7 @@ class AnswerQuizView(AllocatedGroupMixin,
 
     def form_valid(self, form):
 
-        # If the form is valid, record the test-taker's answers then redirect
+        # If the form is valid, record the studen's answers then redirect
         # back to the 'Quiz List' page.
 
         for question_key, answer in form.cleaned_data.items():

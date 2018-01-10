@@ -2,7 +2,7 @@
 {% block page_title %}Quiz Results{% endblock %}
 {% block breadcrumbs %}
     <li><a href="{% url 'quiz-list' %}">Quizzes</a> <span class="divider">/</span></li>
-    <li><a href="{% url 'quiz-detail' quiz.pk %}">{{ object.title }}</a> <span class="divider">/</span></li>
+    <li><a href="{% url 'quiz-info' quiz.pk %}">{{ object.title }}</a> <span class="divider">/</span></li>
     <li class="active">Student Quiz Results</li>
 {% endblock %}
 {% block body_content %}

@@ -14,7 +14,7 @@ urlpatterns = [
     #url(r'(?P<pk>\d+)/topics/$', login_required(TopicDetailView.as_view()), name='topic-detail'),
 
     url(r'^logout/$',auth_views.logout, {'next_page': reverse_lazy('login')},name='logout'),
-    url(r'(?P<pk>\d+)/$',login_required(QuizDetailView.as_view()),name='quiz-detail'),
+    url(r'(?P<pk>\d+)/$',login_required(QuizInfoView.as_view()),name='quiz-info'),
     url(r'(?P<pk>\d+)/answer-quiz/$',login_required(AnswerQuizView.as_view()),name='answer-quiz'),
-    url(r'(?P<pk>\d+)/results/$',login_required(ResultsListView.as_view()),name='student-results')
+    url(r'(?P<pk>\d+)/quiz-results/$',login_required(ResultsListView.as_view()),name='quiz-results')
 ]

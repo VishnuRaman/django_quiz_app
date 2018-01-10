@@ -21,7 +21,7 @@
         </p>
     {% endif %}
     {% if is_admin %}
-    <p><a class="btn btn-info btn-large" href="{% url 'student-results' object.pk %}">See Student Quiz Results</a> <a class="btn btn-warning btn-large" href="{% url 'admin:quiz_quiz_change' object.pk %}">Edit Quiz Content</a></p>
+    <p><a class="btn btn-info btn-large" href="{% url 'quiz-results' object.pk %}">See Student Quiz Results</a> <a class="btn btn-warning btn-large" href="{% url 'admin:quiz_quiz_change' object.pk %}">Edit Quiz Content</a></p>
     {% endif %}
 </div>
 {% endblock %}
