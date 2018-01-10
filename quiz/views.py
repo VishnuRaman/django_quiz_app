@@ -55,7 +55,7 @@ class AllocatedGroupMixin(object):
     # can access this view.
 
     def dispatch(self, request, *args, **kwargs):
-        # assert isinstance(self, ((TakeQuizView, ResultsListView), AllocatedGroupMixin))
+        # assert isinstance(self, ((AnswerQuizView, ResultsListView), AllocatedGroupMixin))
 
         # takes argument object and string, returns true if string is the name of one of the object's attribute,
         # False if not
